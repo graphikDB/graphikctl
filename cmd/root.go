@@ -15,8 +15,8 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:     "graphikctl",
-	Long:    `
+	Use: "graphikctl",
+	Long: `
 A command line utility for graphikDB
 
 ---
@@ -59,6 +59,9 @@ func initConfig() {
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
+
+	viper.SetDefault("auth.scopes", []string{"openid", "email", "profile"})
+	viper.SetDefault("server.port", ":8080")
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {

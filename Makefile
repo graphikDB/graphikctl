@@ -29,6 +29,3 @@ up: ## start local containers
 .PHONY: down
 down: ## shuts down local docker containers
 	@docker-compose -f docker-compose.yml down --remove-orphans
-
-start: ## start ui on localhost:3000
-	@npm start
