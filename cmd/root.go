@@ -61,6 +61,7 @@ func initConfig() {
 	viper.AutomaticEnv() // read in environment variables that match
 
 	viper.SetDefault("auth.scopes", []string{"openid", "email", "profile"})
+	viper.SetDefault("auth.redirect", "http://localhost:8080/")
 	viper.SetDefault("server.port", ":8080")
 
 	// If a config file is found, read it in.

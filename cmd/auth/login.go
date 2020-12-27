@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
+	"github.com/graphikDB/graphikctl/helpers"
 	"github.com/graphikDB/graphikctl/version"
 	"github.com/pkg/errors"
 	"github.com/skratchdot/open-golang/open"
@@ -37,7 +38,18 @@ var login = &cobra.Command{
 			fmt.Println(err.Error())
 			return
 		}
-		link := config.AuthCodeURL(uuid.New().String())
+		state := helpers.Hash([]byte(uuid.New().String()))
+		if !viper.InConfig("auth.code_verifier") {
+			verifier := uuid.New().String()
+			viper.Set("auth.code_verifier", verifier)
+		}
+
+		challenge := helpers.Hash([]byte(viper.GetString("auth.code_verifier")))
+
+		link := config.AuthCodeURL(state,
+			oauth2.SetAuthURLParam("code_challenge_method", "S256"),
+			oauth2.SetAuthURLParam("code_challenge", challenge),
+			)
 		mux := http.NewServeMux()
 		server := &http.Server{Addr: viper.GetString("server.port"), Handler: mux}
 		mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -47,7 +59,12 @@ var login = &cobra.Command{
 				http.Error(w, "Error: could not find 'code' URL parameter", http.StatusBadRequest)
 				return
 			}
-			token, err := config.Exchange(r.Context(), code)
+			stateParam := r.URL.Query().Get("state")
+			if stateParam != state {
+				http.Error(w, "Error: mismatching state param", http.StatusBadRequest)
+				return
+			}
+			token, err := config.Exchange(r.Context(), code, oauth2.SetAuthURLParam("code_verifier", viper.GetString("auth.code_verifier")))
 			if err != nil {
 				fmt.Println(err.Error())
 				http.Error(w, "Error: failed to exchange authorization code", http.StatusUnauthorized)
@@ -59,9 +76,18 @@ var login = &cobra.Command{
 				http.Error(w, "Error: failed to parse login template", http.StatusInternalServerError)
 				return
 			}
+			accessToken := token.AccessToken
+			idToken := token.Extra("id_token")
+			viper.Set("auth.access_token", accessToken)
+			viper.Set("auth.id_token", idToken)
+			if err := viper.WriteConfig(); err != nil {
+				fmt.Println(err.Error())
+				http.Error(w, "Error: failed to save config", http.StatusInternalServerError)
+				return
+			}
 			if err := tmpl.Execute(w, map[string]interface{}{
-				"access_token": token.AccessToken,
-				"id_token":     token.Extra("id_token"),
+				"access_token": accessToken,
+				"id_token":     idToken,
 			}); err != nil {
 				fmt.Println(err.Error())
 				http.Error(w, "Error: failed to execute login template", http.StatusInternalServerError)
@@ -129,8 +155,8 @@ func oauthConfig() (*oauth2.Config, error) {
 		ClientID:     clientId,
 		ClientSecret: clientSecret,
 		Endpoint: oauth2.Endpoint{
-			AuthURL:  metadata["authorization_url"].(string),
-			TokenURL: metadata["token_url"].(string),
+			AuthURL:  metadata["authorization_endpoint"].(string),
+			TokenURL: metadata["token_endpoint"].(string),
 		},
 		RedirectURL: redirect,
 		Scopes:      viper.GetStringSlice("auth.scopes"),

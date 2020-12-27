@@ -1,0 +1,3 @@
+auth:
+  open_id: https://accounts.google.com/.well-known/openid-configuration
+  client_id: 723941275880-6i69h7d27ngmcnq02p6t8lbbgenm26um.apps.googleusercontent.com
