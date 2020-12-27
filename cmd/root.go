@@ -6,6 +6,7 @@ import (
 	"github.com/graphikDB/graphikctl/cmd/config"
 	"github.com/graphikDB/graphikctl/version"
 	"github.com/spf13/cobra"
+	"github.com/spf13/cobra/doc"
 	"os"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -38,7 +39,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.graphikctl.yaml)")
-	rootCmd.AddCommand(auth.Auth, config.Config)
+	rootCmd.AddCommand(auth.Auth, config.Config, docsCmd)
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -69,4 +70,18 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+}
+
+var docsCmd = &cobra.Command{
+	Use:    "docs",
+	Short:  "generate markdown documentation",
+	Hidden: true,
+	Run: func(_ *cobra.Command, args []string) {
+		os.Mkdir("docs", 0700)
+		err := doc.GenMarkdownTree(rootCmd, "docs")
+		if err != nil {
+			fmt.Printf("failed to generate markdown: %s", err)
+		}
+		fmt.Println("documentation generated to ./docs")
+	},
 }

@@ -4,6 +4,7 @@ command line interface for graphikDB
 
 `git clone git@github.com:graphikDB/graphik.git`
 
+[Documentation](./docs/graphikctl.md)
 
 ```text
 A command line utility for graphikDB

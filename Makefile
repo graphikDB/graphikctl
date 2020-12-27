@@ -1,4 +1,4 @@
-version := "0.0.1"
+version := "0.0.2"
 
 .DEFAULT_GOAL := help
 
@@ -29,3 +29,7 @@ up: ## start local containers
 .PHONY: down
 down: ## shuts down local docker containers
 	@docker-compose -f docker-compose.yml down --remove-orphans
+
+install: ## install binaries
+	@go install ./...
+	@graphikctl docs
