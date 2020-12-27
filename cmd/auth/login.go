@@ -19,13 +19,12 @@ import (
 )
 
 func init() {
-
 	Auth.AddCommand(login)
 }
 
 var Auth = &cobra.Command{
 	Use:     "auth",
-	Short:   "authentication/authorization subcommands",
+	Short:   "authentication/authorization subcommands (login)",
 	Version: version.Version,
 }
 
@@ -38,18 +37,20 @@ var login = &cobra.Command{
 			fmt.Println(err.Error())
 			return
 		}
+		var usePKCE = viper.Get("auth.client_secret") == nil
 		state := helpers.Hash([]byte(uuid.New().String()))
 		if !viper.InConfig("auth.code_verifier") {
 			verifier := uuid.New().String()
 			viper.Set("auth.code_verifier", verifier)
 		}
-
-		challenge := helpers.Hash([]byte(viper.GetString("auth.code_verifier")))
-
-		link := config.AuthCodeURL(state,
-			oauth2.SetAuthURLParam("code_challenge_method", "S256"),
-			oauth2.SetAuthURLParam("code_challenge", challenge),
+		var authCodeOpts []oauth2.AuthCodeOption
+		if usePKCE {
+			authCodeOpts = append(authCodeOpts,
+				oauth2.SetAuthURLParam("code_challenge_method", "S256"),
+				oauth2.SetAuthURLParam("code_challenge", helpers.Hash([]byte(viper.GetString("auth.code_verifier")))),
 			)
+		}
+		link := config.AuthCodeURL(state, authCodeOpts...)
 		mux := http.NewServeMux()
 		server := &http.Server{Addr: viper.GetString("server.port"), Handler: mux}
 		mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +65,12 @@ var login = &cobra.Command{
 				http.Error(w, "Error: mismatching state param", http.StatusBadRequest)
 				return
 			}
-			token, err := config.Exchange(r.Context(), code, oauth2.SetAuthURLParam("code_verifier", viper.GetString("auth.code_verifier")))
+			var tokenOpts []oauth2.AuthCodeOption
+			if usePKCE {
+				fmt.Println("use pkce")
+				tokenOpts = append(tokenOpts, oauth2.SetAuthURLParam("code_verifier", viper.GetString("auth.code_verifier")))
+			}
+			token, err := config.Exchange(r.Context(), code, tokenOpts...)
 			if err != nil {
 				fmt.Println(err.Error())
 				http.Error(w, "Error: failed to exchange authorization code", http.StatusUnauthorized)

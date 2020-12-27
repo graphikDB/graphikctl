@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/graphikDB/graphikctl/cmd/auth"
+	"github.com/graphikDB/graphikctl/cmd/config"
 	"github.com/graphikDB/graphikctl/version"
 	"github.com/spf13/cobra"
 	"os"
@@ -37,7 +38,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.graphikctl.yaml)")
-	rootCmd.AddCommand(auth.Auth)
+	rootCmd.AddCommand(auth.Auth, config.Config)
 }
 
 // initConfig reads in config file and ENV variables if set.
