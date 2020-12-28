@@ -86,6 +86,7 @@ var login = &cobra.Command{
 			idToken := token.Extra("id_token")
 			viper.Set("auth.access_token", accessToken)
 			viper.Set("auth.id_token", idToken)
+			viper.Set("auth.refresh_token", token.RefreshToken)
 			if err := viper.WriteConfig(); err != nil {
 				fmt.Println(err.Error())
 				http.Error(w, "Error: failed to save config", http.StatusInternalServerError)

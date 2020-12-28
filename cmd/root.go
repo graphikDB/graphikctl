@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/graphikDB/graphikctl/cmd/auth"
 	"github.com/graphikDB/graphikctl/cmd/config"
+	"github.com/graphikDB/graphikctl/cmd/graph"
 	"github.com/graphikDB/graphikctl/version"
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
@@ -39,7 +40,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.graphikctl.yaml)")
-	rootCmd.AddCommand(auth.Auth, config.Config, docsCmd)
+	rootCmd.AddCommand(auth.Auth, config.Config, docsCmd, graph.Get, graph.Search, graph.Create)
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -67,9 +68,7 @@ func initConfig() {
 	viper.SetDefault("server.port", ":8080")
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
-	}
+	viper.ReadInConfig()
 }
 
 var docsCmd = &cobra.Command{
