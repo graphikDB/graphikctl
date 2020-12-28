@@ -19,7 +19,7 @@ func init() {
 
 var Get = &cobra.Command{
 	Use:   "get",
-	Short: "graphikDB get operations",
+	Short: "graphikDB get operations (doc, connection, schema)",
 }
 
 var docsCmd = &cobra.Command{

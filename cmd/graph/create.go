@@ -30,7 +30,7 @@ func init() {
 
 var Create = &cobra.Command{
 	Use:   "create",
-	Short: "graphikDB create operations",
+	Short: "graphikDB create operations (doc, connection)",
 }
 
 var createDocCmd = &cobra.Command{

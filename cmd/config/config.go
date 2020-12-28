@@ -14,7 +14,7 @@ func init() {
 
 var Config = &cobra.Command{
 	Use:     "config",
-	Short:   "configuration subcommands (get)",
+	Short:   "configuration subcommands (get, open)",
 	Version: version.Version,
 }
 

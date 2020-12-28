@@ -1,6 +1,6 @@
 ## graphikctl get
 
-graphikDB get operations
+graphikDB get operations (doc, connection, schema)
 
 ### Options
 

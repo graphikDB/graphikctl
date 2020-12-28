@@ -1,6 +1,6 @@
 ## graphikctl create
 
-graphikDB create operations
+graphikDB create operations (doc, connection)
 
 ### Options
 

@@ -23,7 +23,7 @@ func init() {
 
 var Search = &cobra.Command{
 	Use:   "search",
-	Short: "graphikDB search operations",
+	Short: "graphikDB search operations  (docs, connections)",
 }
 
 var searchDocs = &cobra.Command{

@@ -1,6 +1,6 @@
 ## graphikctl config
 
-configuration subcommands (get)
+configuration subcommands (get, open)
 
 ### Options
 

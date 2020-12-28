@@ -1,6 +1,6 @@
 ## graphikctl search
 
-graphikDB search operations
+graphikDB search operations  (docs, connections)
 
 ### Options
 
