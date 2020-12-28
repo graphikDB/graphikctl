@@ -20,6 +20,13 @@ func init() {
 	Traverse.Flags().IntVar(&limit, "limit", 0, "limit returned docs")
 	Traverse.Flags().BoolVar(&reverse, "reverse", false, "traversal algorithm to use (DFS/BFS)")
 
+	TraverseMe.Flags().StringVar(&docExpression, "doc-expression", "", "CEL expression used to determine which documents to return")
+	TraverseMe.Flags().StringVar(&connectionExpression, "connection-expression", "", "CEL expression used to determine which connections to traverse")
+	TraverseMe.Flags().StringVar(&sort, "sort", "", "sort documents on this attribute")
+	TraverseMe.Flags().StringVar(&algorithm, "algorithm", apipb.Algorithm_DFS.String(), "traversal algorithm to use (DFS/BFS)")
+	TraverseMe.Flags().IntVar(&limit, "limit", 0, "limit returned docs")
+	TraverseMe.Flags().BoolVar(&reverse, "reverse", false, "traversal algorithm to use (DFS/BFS)")
+
 }
 
 var Traverse = &cobra.Command{
@@ -38,6 +45,35 @@ var Traverse = &cobra.Command{
 				Gtype: gtype,
 				Gid:   gid,
 			},
+			DocExpression:        docExpression,
+			ConnectionExpression: connectionExpression,
+			Limit:                uint64(limit),
+			Sort:                 sort,
+			Reverse:              reverse,
+			Algorithm:            apipb.Algorithm(apipb.Algorithm_value[algorithm]),
+			MaxDepth:             uint64(maxDepth),
+			MaxHops:              uint64(maxHops),
+		})
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		fmt.Println(protojson.Format(resp))
+	},
+}
+
+var TraverseMe = &cobra.Command{
+	Use:   "traverseMe",
+	Short: "graphikDB traversal(me) operations",
+	Run: func(cmd *cobra.Command, args []string) {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		client, err := helpers.GetClient(ctx)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		resp, err := client.TraverseMe(ctx, &apipb.TraverseMeFilter{
 			DocExpression:        docExpression,
 			ConnectionExpression: connectionExpression,
 			Limit:                uint64(limit),

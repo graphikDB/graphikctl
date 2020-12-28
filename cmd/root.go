@@ -53,6 +53,7 @@ func init() {
 		graph.Traverse,
 		graph.Edit,
 		graph.Put,
+		graph.TraverseMe,
 	)
 }
 

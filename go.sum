@@ -175,6 +175,8 @@ github.com/graphikDB/generic v0.0.1/go.mod h1:3Dji4QoogUaekuR3a+qDFRAmut1CUtsMkh
 github.com/graphikDB/graphik v0.8.2/go.mod h1:fJHmHpdS8Qs2Aj9WVAzTVHHSh03o26208HH4UAuFCMY=
 github.com/graphikDB/graphik v0.12.1 h1:J4SuA1ycqSdyB+pQ3CScL2D04VgUsagnbweZmQEEMdc=
 github.com/graphikDB/graphik v0.12.1/go.mod h1:PkgMXjsc1NozbbX9SOlWHwuh13g0GVAg1Ld094aRyzU=
+github.com/graphikDB/graphik v0.13.1 h1:HoKADMvrep/XnuobsYfMGD6nh5yliZeeQRtR/qCImwo=
+github.com/graphikDB/graphik v0.13.1/go.mod h1:PkgMXjsc1NozbbX9SOlWHwuh13g0GVAg1Ld094aRyzU=
 github.com/graphikDB/raft v0.0.0/go.mod h1:WIylhU9T0j6k0Ynh8RMb2PCvUYehlgCrTCTCusMLO6g=
 github.com/graphikDB/trigger v0.0.13/go.mod h1:RZn4pNk7i0xbur4PBtRR8L1IJedr1ll/mymrwY2M4dQ=
 github.com/grpc-ecosystem/go-grpc-middleware v1.0.0/go.mod h1:FiyG127CGDf3tlThmgyCl78X/SZQqEOJBCDaAfeWzPs=

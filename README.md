@@ -11,7 +11,7 @@ A command line utility for graphikDB
 
 ---
 env-prefix: GRAPHIKCTL
-config-path: ~/.graphikctl.yaml
+default config-path: ~/.graphikctl.yaml
 
 Usage:
   graphikctl [command]
@@ -24,6 +24,7 @@ Available Commands:
   edit        graphikDB edit operations (doc, connection)
   get         graphikDB get operations (doc, connection, schema)
   help        Help about any command
+  put         graphikDB put operations (doc, connection)
   search      graphikDB search operations  (docs, connections)
   stream      graphikDB stream operations
   traverse    graphikDB traversal operations
