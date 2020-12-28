@@ -2,26 +2,31 @@
 
 command line interface for graphikDB
 
-`git clone git@github.com:graphikDB/graphik.git`
+    git clone git@github.com:graphikDB/graphik.git
 
-[Documentation](./docs/graphikctl.md)
+[Generated Documentation](./docs/graphikctl.md)
 
 ```text
 A command line utility for graphikDB
 
 ---
 env-prefix: GRAPHIKCTL
+config-path: ~/.graphikctl.yaml
 
 Usage:
   graphikctl [command]
 
 Available Commands:
   auth        authentication/authorization subcommands (login)
+  broadcast   graphikDB broadcast operations
   config      configuration subcommands (get, open)
   create      graphikDB create operations (doc, connection)
+  edit        graphikDB edit operations (doc, connection)
   get         graphikDB get operations (doc, connection, schema)
   help        Help about any command
   search      graphikDB search operations  (docs, connections)
+  stream      graphikDB stream operations
+  traverse    graphikDB traversal operations
 
 Flags:
       --config string   config file (default is $HOME/.graphikctl.yaml)
@@ -29,9 +34,10 @@ Flags:
   -v, --version         version for graphikctl
 
 Use "graphikctl [command] --help" for more information about a command.
+
 ```
 
-## Example Config
+## Example Config (~/.graphikctl.yaml)
 
 ```yaml
 auth:

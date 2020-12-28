@@ -30,7 +30,7 @@ var Auth = &cobra.Command{
 
 var login = &cobra.Command{
 	Use:   "login",
-	Short: "launch a login flow to an identity provider",
+	Short: "launch a login flow via the browser to an identity provider",
 	Run: func(cmd *cobra.Command, args []string) {
 		config, err := oauthConfig()
 		if err != nil {

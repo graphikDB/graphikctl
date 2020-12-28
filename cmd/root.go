@@ -24,6 +24,7 @@ A command line utility for graphikDB
 
 ---
 env-prefix: GRAPHIKCTL
+default config-path: ~/.graphikctl.yaml
 `,
 	Version: version.Version,
 }
@@ -40,7 +41,19 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.graphikctl.yaml)")
-	rootCmd.AddCommand(auth.Auth, config.Config, docsCmd, graph.Get, graph.Search, graph.Create)
+	rootCmd.AddCommand(
+		auth.Auth,
+		config.Config,
+		docsCmd,
+		graph.Get,
+		graph.Search,
+		graph.Create,
+		graph.Broadcast,
+		graph.Stream,
+		graph.Traverse,
+		graph.Edit,
+		graph.Put,
+	)
 }
 
 // initConfig reads in config file and ENV variables if set.
