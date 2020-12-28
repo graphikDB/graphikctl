@@ -18,7 +18,10 @@ Usage:
 Available Commands:
   auth        authentication/authorization subcommands (login)
   config      configuration subcommands (get)
+  create      graphikDB create operations
+  get         graphikDB get operations
   help        Help about any command
+  search      graphikDB search operations
 
 Flags:
       --config string   config file (default is $HOME/.graphikctl.yaml)
@@ -26,7 +29,6 @@ Flags:
   -v, --version         version for graphikctl
 
 Use "graphikctl [command] --help" for more information about a command.
-
 ```
 
 ## Example Config
@@ -36,4 +38,7 @@ auth:
   open_id: https://accounts.google.com/.well-known/openid-configuration
   client_id: ${uuid}.apps.googleusercontent.com
   client_secret: ${client_secret}
+host: localhost:7820
+server:
+  port: :8080
 ```
