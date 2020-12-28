@@ -28,6 +28,7 @@ Available Commands:
   search      graphikDB search operations  (docs, connections)
   stream      graphikDB stream operations
   traverse    graphikDB traversal operations
+  traverseMe  graphikDB traversal(me) operations
 
 Flags:
       --config string   config file (default is $HOME/.graphikctl.yaml)
