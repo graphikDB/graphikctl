@@ -17,11 +17,11 @@ Usage:
 
 Available Commands:
   auth        authentication/authorization subcommands (login)
-  config      configuration subcommands (get)
-  create      graphikDB create operations
-  get         graphikDB get operations
+  config      configuration subcommands (get, open)
+  create      graphikDB create operations (doc, connection)
+  get         graphikDB get operations (doc, connection, schema)
   help        Help about any command
-  search      graphikDB search operations
+  search      graphikDB search operations  (docs, connections)
 
 Flags:
       --config string   config file (default is $HOME/.graphikctl.yaml)
