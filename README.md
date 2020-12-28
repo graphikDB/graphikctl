@@ -2,8 +2,6 @@
 
 command line interface for graphikDB
 
-    git clone git@github.com:graphikDB/graphik.git
-
 [Generated Documentation](./docs/graphikctl.md)
 
 ```text
@@ -38,6 +36,25 @@ Flags:
 Use "graphikctl [command] --help" for more information about a command.
 
 ```
+
+## Installation
+
+## From Source
+
+    git clone git@github.com:graphikDB/graphik-homebrew.git && go build .
+
+### Mac
+
+    brew tap graphik/tools git@github.com:graphikDB/graphik-homebrew.git
+    
+    brew install graphik
+    
+    brew install graphikctl
+    
+### Linux
+
+- [Download Release](https://github.com/graphikDB/graphikctl/releases)
+
 
 ## Example Config (~/.graphikctl.yaml)
 
