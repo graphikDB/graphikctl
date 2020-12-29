@@ -1,7 +1,5 @@
 package graph
 
-import "time"
-
 var (
 	gtype                string
 	gid                  string
@@ -23,5 +21,4 @@ var (
 	algorithm            string
 	maxDepth             int
 	maxHops              int
-	rewind               time.Duration
 )
