@@ -12,6 +12,8 @@ import (
 func init() {
 	Stream.Flags().StringVar(&channel, "channel", "", "the channel to publish a message to")
 	Stream.Flags().StringVar(&expression, "expression", "", "CEL expression to filter streamed messages")
+	Stream.Flags().DurationVar(&rewind, "rewind", 0, "rewind time to capture historical messages (ex: 5m)")
+
 }
 
 var Stream = &cobra.Command{
@@ -27,6 +29,7 @@ var Stream = &cobra.Command{
 		if err := client.Stream(context.Background(), &apipb.StreamFilter{
 			Channel:    channel,
 			Expression: expression,
+			Rewind:     rewind.String(),
 		}, func(msg *apipb.Message) bool {
 			fmt.Println(protojson.Format(msg))
 			return true
